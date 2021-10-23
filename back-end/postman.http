@@ -1,0 +1,41 @@
+GET http://localhost:5000/user/getAll HTTP/1.1
+###
+
+POST http://localhost:5000/user/signUp HTTP/1.1
+content-type: application/json
+
+{
+    "email":"truonghuuthanh95@gmail.com",
+    "password":"123456789",
+    "firstName":"thanh",
+    "lastName":"truong",
+    "membershipType":"yearly",
+    "companyName":"viatick",
+    "designation":"CEO"
+}
+
+###
+
+GET http://localhost:5000/user/getById?id=1 HTTP/1.1
+
+
+###
+POST http://localhost:5000/user/signIn HTTP/1.1
+content-type: application/json
+
+{
+    "email":"truonghuuthanh95@gmail.com",
+    "password": "123"
+}
+
+###
+GET http://localhost:5000/user/search?value=Thanh HTTP/1.1
+
+###
+DELETE http://localhost:5000/user/delete?id=8e71b825-fdc1-4e91-9f2d-ee7bbbd68611 HTTP/1.1
+
+###
+GET http://localhost:5000/user/get HTTP/1.1
+
+###
+GET http://localhost:5000/membershipType/get  HTTP/1.1
