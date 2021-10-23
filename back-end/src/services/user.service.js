@@ -30,7 +30,16 @@ export const updateUser = async (user) => {
   }
 };
 
-export const deleteUser = (id) => {};
+export const deleteUser = async (id) => {
+  try {
+    let user = await User.findByPk(id);
+    user.status = false;
+    user.save();
+    return user;
+  } catch (error) {
+    throw error;
+  }
+};
 
 export const getUsers = async () => {
   try {

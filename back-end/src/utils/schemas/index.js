@@ -7,9 +7,9 @@ export const signUpSchema = ajvInstance.compile({
     firstName: { type: "string", minLength: 3 },
     lastName: { type: "string", minLength: 3 },
     password: { type: "string", minLength: 8 },
-    membershipType: { type: "string", minLength: 3 },
+    membershipType: { type: "number" },
     companyName: { type: "string", minLength: 3 },
-    designation: { type: "string", minLength: 3 },
+    designation: { type: "string" },
   },
   required: [
     "firstName",
@@ -25,7 +25,7 @@ export const loginSchema = ajvInstance.compile({
   type: "object",
   properties: {
     email: { type: "string", format: "email" },
-    password: { type: "string", minLength: 3 },
+    password: { type: "string", minLength: 8 },
   },
   required: ["password", "email"],
 });

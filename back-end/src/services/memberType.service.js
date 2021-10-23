@@ -12,11 +12,11 @@ export const getMembershipTypes = async () => {
   }
 };
 
-export const getMembershipTypesIsActive = async () => {
+export const getMembershipTypesWithStatus = async (isActive) => {
   try {
     let membershipTypes = await MembershipTypes.findAll({
       where: {
-        isActive: { [Op.is]: true },
+        isActive: { [Op.is]: isActive },
       },
     });
     return membershipTypes;

@@ -10,6 +10,10 @@ const userApi = {
     const url = `/products/${id}`;
     return axiosClient.get(url);
   },
+  signUp: (params) => {
+    const url = `/user/signUp`;
+    return axiosClient.post(url, params);
+  },
 };
 
 export default userApi;

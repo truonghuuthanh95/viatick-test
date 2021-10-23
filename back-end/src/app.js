@@ -9,7 +9,7 @@ const GoogleStrategy = require("passport-google-oauth20").Strategy;
 import { googleClientID, googleClientSecret } from "./utils/key";
 
 import userRoute from "./routes/user.route";
-import membershipTypeRoute from './routes/membershipType.route'
+import membershipTypeRoute from "./routes/membershipType.route";
 dotenv.config();
 
 const app = express();
@@ -25,7 +25,7 @@ app.use(helmet());
 /** CROSS ORIGIN */
 app.use(cors());
 
-var userProfile;
+/*  Google AUTH  */
 
 passport.serializeUser(function (user, cb) {
   cb(null, user);
@@ -34,23 +34,23 @@ passport.serializeUser(function (user, cb) {
 passport.deserializeUser(function (obj, cb) {
   cb(null, obj);
 });
-/*  Google AUTH  */
 passport.use(
   new GoogleStrategy(
     {
       clientID: googleClientID,
       clientSecret: googleClientSecret,
-      callbackURL: "/auth/google/callback",
+      callbackURL: "http://localhost:5000/auth/google/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
-      userProfile = profile;
-      return done(null, userProfile);
+      console.log(accessToken, refreshToken, profile);
+      return done(null, profile);
     }
   )
 );
 
-app.get("/success", (req, res) => res.send(userProfile));
-app.get("/error", (req, res) => res.send("error logging in"));
+/**
+ * ROUTES
+ */
 
 app.get(
   "/auth/google",
@@ -64,13 +64,9 @@ app.get(
   passport.authenticate("google"),
   function (req, res) {
     // Successful authentication, redirect success.
-    res.redirect("/success");
+    res.send({ statusCode: 200, message: "success", result: req });
   }
 );
-
-/**
- * ROUTES
- */
 
 app.use("/user", userRoute);
 app.use("/memberShipType", membershipTypeRoute);

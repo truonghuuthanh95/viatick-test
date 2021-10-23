@@ -5,14 +5,17 @@ import {
   LockOutlined,
   GooglePlusOutlined,
 } from "@ant-design/icons";
+import { useDispatch, useSelector } from "react-redux";
 
 const SignIn = () => {
+  const dispatch = useDispatch();
+  const emailRegisted = useSelector((state) => state.auth.emailRegisted);
   return (
     <>
       <Form
         name="normal_login"
         className="login-form"
-        initialValues={{ remember: true }}
+        initialValues={{ email: emailRegisted }}
         onFinish={null}
       >
         <p style={{ textAlign: "center" }}>
@@ -21,8 +24,8 @@ const SignIn = () => {
           </Button>
         </p>
         <Form.Item
-          name="username"
-          rules={[{ required: true, message: "Please input your Username!" }]}
+          name="email"
+          rules={[{ required: true, message: "Please input your email!" }]}
         >
           <Input
             prefix={<UserOutlined className="site-form-item-icon" />}

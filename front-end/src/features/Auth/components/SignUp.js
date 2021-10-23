@@ -1,5 +1,19 @@
-import React from "react";
-import { Form, Input, Button, Checkbox, Image, InputNumber } from "antd";
+import React, { useState, useEffect } from "react";
+import {
+  Form,
+  Input,
+  Button,
+  Checkbox,
+  Image,
+  InputNumber,
+  Select,
+} from "antd";
+import userAPI from "apis/userAPI";
+import membershipAPI from "apis/membershipAPI";
+import { useDispatch } from "react-redux";
+import { setCurrentTab, setEmailRegisted } from "features/Auth/authSlice";
+
+const { Option } = Select;
 
 const layout = {
   labelCol: {
@@ -22,16 +36,32 @@ const validateMessages = {
 };
 
 const SignUp = () => {
-  const onFinish = (values) => {
-    console.log(values);
+  const dispatch = useDispatch();
+
+  const [membershipTypes, setMembershipTypes] = useState([]);
+  const onFinish = async (values) => {
+    // console.log(values);
+    // const signUpRes = await userAPI.signUp(values);
+    // console.log(signUpRes);
+    dispatch(setCurrentTab("1"));
+    dispatch(setEmailRegisted("truobnghuuthanh@gmail.com"))
   };
 
+  useEffect(() => {
+    const getMembershipTypes = async () => {
+      const membershipTypeRes = await membershipAPI.get();
+      setMembershipTypes(membershipTypeRes.results);
+    };
+
+    getMembershipTypes();
+  }, []);
   return (
     <Form
       {...layout}
       name="nest-messages"
       onFinish={onFinish}
       validateMessages={validateMessages}
+      initialValues={{ membershipType: 1 }}
     >
       <Form.Item
         name="firstName"
@@ -56,24 +86,50 @@ const SignUp = () => {
         <Input />
       </Form.Item>
       <Form.Item
-        name={["user", "email"]}
+        name={"email"}
         label="Email"
         rules={[
           {
             type: "email",
+            required: true,
           },
         ]}
       >
         <Input />
       </Form.Item>
       <Form.Item name="membershipType" label="Membership Type">
-        <InputNumber />
+        <Select style={{ width: 120 }} onChange={null}>
+          {membershipTypes.map((member) => (
+            <Option value={member.id} key={member.id}>
+              {member.name}
+            </Option>
+          ))}
+        </Select>
       </Form.Item>
-      <Form.Item name={["user", "website"]} label="Website">
+      <Form.Item
+        name={"company"}
+        label="Company"
+        rules={[
+          {
+            required: true,
+          },
+        ]}
+      >
         <Input />
       </Form.Item>
-      <Form.Item name={["user", "introduction"]} label="Introduction">
-        <Input.TextArea />
+      <Form.Item name={"designation"} label="Desgination">
+        <Input />
+      </Form.Item>
+      <Form.Item
+        name={"password"}
+        label="Password"
+        rules={[
+          {
+            required: true,
+          },
+        ]}
+      >
+        <Input type="password" />
       </Form.Item>
       <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
         <Button type="primary" htmlType="submit">
@@ -83,4 +139,5 @@ const SignUp = () => {
     </Form>
   );
 };
+
 export default SignUp;

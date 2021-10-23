@@ -1,6 +1,6 @@
 import {
   getMembershipTypes,
-  getMembershipTypesIsActive,
+  getMembershipTypesWithStatus,
 } from "../services/memberType.service";
 
 export const get = async (req, res, next) => {
@@ -8,8 +8,8 @@ export const get = async (req, res, next) => {
     let { isActive } = req.query;
     let membershipTypes;
 
-    if (isActive) {
-      membershipTypes = await getMembershipTypesIsActive();
+    if (isActive !== undefined) {
+      membershipTypes = await getMembershipTypesWithStatus(isActive);
     } else {
       membershipTypes = await getMembershipTypes();
     }

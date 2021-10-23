@@ -9,7 +9,7 @@ content-type: application/json
     "password":"123456789",
     "firstName":"thanh",
     "lastName":"truong",
-    "membershipType":"yearly",
+    "membershipType":1,
     "companyName":"viatick",
     "designation":"CEO"
 }
